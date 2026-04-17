@@ -1,36 +1,101 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Bookworm — Монгол номын сошиал платформ
 
-## Getting Started
+35,000+ хэрэглэгчид зориулсан номын сан, нийгэмлэг, зар худалдаа болон чат функцтэй вэб апп.
 
-First, run the development server:
+## Технологийн стэк
+
+- **Framework**: Next.js 16 (App Router)
+- **Хэл**: TypeScript
+- **UI**: Tailwind CSS + shadcn/ui
+- **State**: Zustand
+- **Real-time**: Socket.io (бэлтгэгдсэн)
+- **Мессеж**: Facebook Messenger Webhook
+
+## Эхлүүлэх
+
+### Шаардлага
+
+- Node.js 18+
+- npm / yarn / pnpm
+
+### Суулгах
+
+```bash
+npm install
+```
+
+### Орчны тохиргоо
+
+`.env.local` файлд дараах утгуудыг оруулна:
+
+```env
+DATABASE_URL=postgresql://user:password@localhost:5432/bookworm
+JWT_SECRET=нууц-түлхүүр
+REDIS_URL=redis://localhost:6379
+MESSENGER_VERIFY_TOKEN=bookworm_verify_token
+MESSENGER_PAGE_ACCESS_TOKEN=
+NEXT_PUBLIC_APP_URL=http://localhost:3000
+NEXT_PUBLIC_SOCKET_URL=http://localhost:3001
+```
+
+### Локал сервер ажиллуулах
 
 ```bash
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Браузерт **http://localhost:3000** нээнэ үү.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+> Demo горимд дурын и-мэйл болон 6-с дээш тэмдэгтийн нууц үгээр нэвтэрч болно.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### Build хийх
 
-## Learn More
+```bash
+npm run build
+npm start
+```
 
-To learn more about Next.js, take a look at the following resources:
+## Хуудсуудын бүтэц
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+| Хуудас | Замнал | Тайлбар |
+|--------|--------|---------|
+| Нэвтрэх | `/auth/login` | И-мэйл + нууц үгээр нэвтрэх |
+| Бүртгүүлэх | `/auth/register` | Шинэ бүртгэл үүсгэх |
+| Миний сан | `/library` | Номоо нэмэх, засах, устгах |
+| Коммунити | `/community` | Бусдын нийтэлсэн номнууд, зээлэх |
+| Зар | `/marketplace` | Ном зарах, авах, хайх |
+| Чат | `/chat` | Хэрэглэгчидтэй мессеж бичих |
+| Профайл | `/profile` | Мэдээлэл, статистик, тохиргоо |
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## API Endpoints
 
-## Deploy on Vercel
+| Endpoint | Арга | Тайлбар |
+|----------|------|---------|
+| `/api/auth/login` | POST | Нэвтрэх |
+| `/api/messenger/webhook` | GET | Facebook верификац |
+| `/api/messenger/webhook` | POST | Messenger мессеж хүлээн авах |
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## Facebook Messenger холболт
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. [Meta Developers](https://developers.facebook.com) дээр апп үүсгэнэ
+2. Webhook URL: `https://таны-домэйн/api/messenger/webhook`
+3. Verify Token: `.env.local`-н `MESSENGER_VERIFY_TOKEN` утга
+4. Page Access Token-г `.env.local`-д нэмнэ
+
+## Хавтасны бүтэц
+
+```
+src/
+├── app/
+│   ├── (main)/          # Нэвтэрсэн хэрэглэгчийн хуудсууд
+│   ├── auth/            # Нэвтрэх / бүртгүүлэх
+│   └── api/             # REST API болон Webhook
+├── components/
+│   └── books/           # Номтой холбоотой компонентууд
+├── store/               # Zustand state management
+└── types/               # TypeScript төрлүүд
+```
+
+## Лиценз
+
+MIT
